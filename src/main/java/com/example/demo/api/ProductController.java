@@ -39,4 +39,10 @@ public class ProductController {
         ProductResponse productResponse = productService.updateProduct(id, productUpdateRequest);
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable UUID id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
+    }
 }

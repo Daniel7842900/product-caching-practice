@@ -57,6 +57,13 @@ public class ProductService {
         return toResponse(product);
     }
 
+    @Transactional
+    public void deleteProduct(UUID id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("Product not found"));
+
+        productRepository.delete(product);
+    }
+
     private ProductResponse toResponse(Product product) {
         return new ProductResponse(
                 product.getId(),
