@@ -3,6 +3,7 @@ package com.example.demo.api;
 
 import com.example.demo.dto.ProductCreateRequest;
 import com.example.demo.dto.ProductResponse;
+import com.example.demo.dto.ProductUpdateRequest;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,12 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductCreateRequest productCreateRequest) {
         ProductResponse productResponse = productService.createProduct(productCreateRequest);
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable UUID id, @RequestBody ProductUpdateRequest productUpdateRequest) {
+        ProductResponse productResponse = productService.updateProduct(id, productUpdateRequest);
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 }

@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.domain.Product;
 import com.example.demo.dto.ProductCreateRequest;
 import com.example.demo.dto.ProductResponse;
+import com.example.demo.dto.ProductUpdateRequest;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,19 @@ public class ProductService {
         Product saved = productRepository.save(product);
 
         return toResponse(saved);
+    }
+
+    @Transactional
+    public ProductResponse updateProduct(UUID id, ProductUpdateRequest productUpdateRequest) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("Product not found"));
+
+        product.setName(productUpdateRequest.getName());
+        product.setCategory(productUpdateRequest.getCategory());
+        product.setPrice(productUpdateRequest.getPrice());
+
+        productRepository.save(product);
+
+        return toResponse(product);
     }
 
     private ProductResponse toResponse(Product product) {
