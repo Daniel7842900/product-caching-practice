@@ -1,10 +1,9 @@
 package com.example.demo.api;
 
 
-import com.example.demo.dto.ProductCreateRequest;
-import com.example.demo.dto.ProductResponse;
-import com.example.demo.dto.ProductUpdateRequest;
+import com.example.demo.dto.*;
 import com.example.demo.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +25,12 @@ public class ProductController {
     public ResponseEntity<ProductResponse> getProduct(@PathVariable UUID id) {
         ProductResponse productResponse = productService.findProduct(id);
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<ProductPageResponse> getProductsByFilters(@Valid ProductListByFilterRequest productListByFilterRequest) {
+        ProductPageResponse productPageResponse = productService.findProductsByCategory(productListByFilterRequest);
+        return new ResponseEntity<>(productPageResponse, HttpStatus.OK);
     }
 
     @PostMapping
